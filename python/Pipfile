@@ -12,6 +12,8 @@ bs4 = "*"
 beautifulsoup4 = "*"
 lxml = "*"
 openpyxl = "*"
+sqlalchemy = "*"
+mysqlclient = "*"
 
 [dev-packages]
 
