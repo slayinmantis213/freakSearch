@@ -233,3 +233,6 @@ _Pvt_Extensions
 
 # jupyter Test Materials
 lesson/
+
+# appsettings
+appsettings.json
