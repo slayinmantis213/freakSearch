@@ -7,6 +7,10 @@ using freakSearch.Models;
 
 namespace freakSearch.Controllers;
 
+// routes to /api/ControllerName/RouteName
+//ex. /api/Episode/AllEpisodes
+[Route("api/[controller]")]
+[ApiController]
 public class EpisodeController : Controller
 {
     private readonly ILogger<EpisodeController> _logger;
@@ -18,13 +22,17 @@ public class EpisodeController : Controller
         _context = context;
     }
 
-    [HttpGet("GetAllEpisodes")]
+    [HttpGet("AllEpisodes")]
     public IActionResult GetAllEpisodes()
     {
         var episodes = _context.Episodes.ToList();
-        // Log the episodes
-        _logger.LogInformation("Episodes: {Episodes}", episodes);
         return Ok(episodes);
+    }
 
+    [HttpGet("AllTitles")]
+    public IActionResult GetAllEpisodeNames()
+    {
+        var episodes = _context.Episodes.Select(e => new { e.Title, e.EpisodeNumber, e.Link }).ToList();
+        return Ok(episodes);
     }
 }
