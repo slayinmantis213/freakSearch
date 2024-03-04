@@ -1,14 +1,3 @@
-// import React, {Component} from 'react';
-
-// export class EpisodesSearch extends Component {
-//     render(){
-//         return (
-//         <div>
-//             EpisodesSearch
-//         </div>
-//     )}
-// }
-
 import React, { Component } from 'react';
 
 export class EpisodesSearch extends Component {
@@ -17,7 +6,7 @@ export class EpisodesSearch extends Component {
     };
 
     componentDidMount() {
-        fetch('https://localhost:7099/api/Episode/AllEpisodes')
+        fetch('https://localhost:7099/api/Episode/All')
             .then((response) => response.json())
             .then((data) => {
                 this.setState({ episodes: data });

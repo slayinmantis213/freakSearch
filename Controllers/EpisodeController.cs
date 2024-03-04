@@ -22,17 +22,23 @@ public class EpisodeController : Controller
         _context = context;
     }
 
-    [HttpGet("AllEpisodes")]
+    [HttpGet("All")]
     public IActionResult GetAllEpisodes()
     {
         var episodes = _context.Episodes.ToList();
         return Ok(episodes);
     }
 
-    [HttpGet("AllTitles")]
-    public IActionResult GetAllEpisodeNames()
+    [HttpGet("search")]
+    public IActionResult SearchEpisodes(string query)
     {
-        var episodes = _context.Episodes.Select(e => new { e.Title, e.EpisodeNumber, e.Link }).ToList();
+        var episodes = _context.Episodes
+            .Where(e => e.Title.Contains(query)
+                        || e.Summary.Contains(query)
+                        || e.Link.Contains(query)
+                        || e.Transcript.Contains(query))
+            .ToList();
+
         return Ok(episodes);
     }
 }
