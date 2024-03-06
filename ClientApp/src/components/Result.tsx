@@ -1,4 +1,7 @@
     import React, { Component } from 'react';
+    import Paper from '@mui/material/Paper';
+    import Link from '@mui/material/Link';
+
 
     type ResultProps = {
         result: any
@@ -10,9 +13,11 @@
             const { transcript, ...otherProps } = result;
     
             return (
-                <div>
-                    {Object.values(otherProps).join(', ')}
-                </div>
+                <Paper elevation={3} sx={{width:1000, padding:2}}>
+                    <h3><Link href={otherProps.link} target="_blank" rel="noreferrer">{otherProps.episodeNumber}</Link></h3>
+                    <h4>{otherProps.title}</h4>
+                    <Paper elevation={0} sx={{padding:2}}>Summary: {otherProps.summary}</Paper>
+                </Paper>
             );
         }
     }

@@ -1,9 +1,13 @@
 import React, {FC} from 'react';
+import Input from '@mui/material/Input';
+
 
 export const SearchBar: FC = () => {
+
+
     return (
         <div>
-            <input type="text" name="" id="searchInput" />
+            <Input fullWidth={true} autoFocus={true} type="text" name="" id="searchInput" />
         </div>
     );
 }

@@ -1,10 +1,15 @@
 import React, {FC} from 'react';
+import Button from '@mui/material/Button';
 
-export const SearchButton: FC = ({handleButtonClick}) => {
+interface SearchButtonProps {
+    handleButtonClick: () => void;
+}
+
+export const SearchButton: FC<SearchButtonProps> = ({handleButtonClick}) => {
 
     return (
         <div>
-            <button onClick={handleButtonClick}>Search</button>
+            <Button variant="outlined" onClick={handleButtonClick} onSubmit={handleButtonClick}>Search</Button>
         </div>
     );
 };

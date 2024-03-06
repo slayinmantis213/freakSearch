@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import {App}  from "./App.tsx";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
+import "./custom.css";
 
 createRoot(document.getElementById("root")).render(<App />)
 
