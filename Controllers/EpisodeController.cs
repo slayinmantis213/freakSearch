@@ -32,12 +32,16 @@ public class EpisodeController : Controller
     [HttpGet("search")]
     public IActionResult SearchEpisodes(string query)
     {
-        var episodes = _context.Episodes
-            .Where(e => e.Title.Contains(query)
-                        || e.Summary.Contains(query)
-                        || e.Link.Contains(query)
-                        || e.Transcript.Contains(query))
-            .ToList();
+        var AllEpisodes = _context.Episodes.ToList();
+        var searchEngine = new EpisodeSearchEngine();
+        searchEngine.AddEpisodesToIndex(AllEpisodes);
+        var episodes = searchEngine.Search(query);
+        // var episodes = _context.Episodes
+        //     .Where(e => e.Title.Contains(query)
+        //                 || e.Summary.Contains(query)
+        //                 || e.Link.Contains(query)
+        //                 || e.Transcript.Contains(query))
+        //     .ToList();
 
         return Ok(episodes);
     }
