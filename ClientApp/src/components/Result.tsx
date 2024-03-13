@@ -16,7 +16,9 @@
                 <Paper elevation={3} sx={{width:1000, padding:2}}>
                     <h3><Link href={otherProps.link} target="_blank" rel="noreferrer">{otherProps.episodeNumber}</Link></h3>
                     <h4>{otherProps.title}</h4>
+                    <h5>{otherProps.id}</h5>
                     <Paper elevation={0} sx={{padding:2}}>Summary: {otherProps.summary}</Paper>
+                    <Paper elevation={3} sx={{padding:2}}>Excerpt: ... lipsum ordem ltin words are fun fun fun. ...</Paper>
                 </Paper>
             );
         }
