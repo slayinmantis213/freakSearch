@@ -8,6 +8,7 @@ import "./custom.css";
 
 createRoot(document.getElementById("root")).render(<App />)
 
+// TODO add context provider in index.tsx
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

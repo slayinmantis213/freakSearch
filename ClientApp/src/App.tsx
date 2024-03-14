@@ -9,6 +9,8 @@ import './custom.css';
 function App() {
   const [hasResult, setHasResult] = useState(false);
   const [result, setResult] = useState([]);
+
+  //todo look into router
   
   const searchButtonClicked = () => {
     const query = (document.getElementById('searchInput') as HTMLInputElement).value;
