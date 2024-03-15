@@ -60,6 +60,7 @@ public class EpisodeSearchEngine
         string[] fields = { "Title", "EpisodeNumber", "Summary", "Link", "Transcript" };
         var queryParser = new MultiFieldQueryParser(version, fields, _analyzer);
         var query = queryParser.Parse(searchTerm);
+        Console.WriteLine($"searchTerm: {searchTerm}");
         // this part needs work if we want to skip replays
         var hits = searcher.Search(query, 10).ScoreDocs;
         var episodes = new List<Episode>();
@@ -77,7 +78,7 @@ public class EpisodeSearchEngine
             };
             Console.WriteLine("ep id: " + episode.Id + ", ep title: " + episode.Title + ", ep num: " + episode.EpisodeNumber);
             //this is a very simple way of skipping episodes that are replays.
-            if(episode.Title.Contains("(Replay)")) continue; 
+            if(episode.Title.Contains("(Replay)") && searchTerm != "replay") continue; 
             //inital obvious negative impact: reduces the number of results by the number of replays in the result, so if you search "replay" you get zero results.  
             //maybe we could populate more result as a padding for this? idea: increase collected hits to 20-30ish (ln 60) and then have an iterator in the hits loop that counts up when we .Add() to episodes.  When i == 10, break loop and display results
             episodes.Add(episode);
