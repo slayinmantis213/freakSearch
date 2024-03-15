@@ -13,7 +13,7 @@
             const { transcript, ...otherProps } = result;
     
             return (
-                <Paper elevation={3} sx={{width:1000, padding:2}}>
+                <Paper elevation={3} sx={{maxWidth:850, padding:2}}>
                     <h3><Link href={otherProps.link} target="_blank" rel="noreferrer">{otherProps.episodeNumber}</Link></h3>
                     <h4>{otherProps.title}</h4>
                     <h5>{otherProps.id}</h5>

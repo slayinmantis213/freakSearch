@@ -26,28 +26,26 @@ const Search = () => {
         console.error(error);
       });
     setHasResult(true);
+    // TODO make a search route that puts the search terms inside the URL
+    // TODO read up on why form or Input leads to a specific URL
   };
   return (
     <>
       <form onSubmit={searchButtonClicked}>
-        <label htmlFor="searchInput"></label>
         <Input
+          sx={{ marginBottom: 10 }}
           type="text"
           autoFocus={true}
           id="searchInput"
           name="searchInput"
         />
+
         <Button type="button" onClick={searchButtonClicked}>
           <SearchIcon />
         </Button>
       </form>
 
-      <Stack
-        spacing={2}
-        justifyContent="center"
-        alignItems="center"
-        sx={{ minWidth: 0 }}
-      >
+      <Stack spacing={2} justifyContent="center" alignItems="center" sx={{}}>
         {hasResult &&
           result.map((result, index) => <Result key={index} result={result} />)}
       </Stack>

@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, Routes, Route, BrowserRouter } from "react-router-dom";
 import Search from "./components/Search/Search.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
-import "./custom.css";
+import "./App.css";
 
 function App() {
   //todo look into router

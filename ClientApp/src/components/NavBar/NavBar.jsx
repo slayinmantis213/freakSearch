@@ -4,7 +4,11 @@ import React from "react";
 const NavBar = () => {
   return (
     <>
-      <ButtonGroup variant="contained" aria-label="Navigation buttons">
+      <ButtonGroup
+        sx={{ marginTop: 10, marginBottom: 5 }}
+        variant="contained"
+        aria-label="Navigation buttons"
+      >
         <Button href="/search">Search</Button>
         <Button href="/hosts">Hosts</Button>
         <Button href="/guests">Guests</Button>
