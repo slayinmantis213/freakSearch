@@ -45,8 +45,6 @@ public class EpisodeSearchEngine
                 new TextField("Link", episode.Link, Field.Store.YES),
                 new TextField("Transcript", episode.Transcript, Field.Store.YES)
             };
-            Console.WriteLine(document.Get("Title"));
-            Console.WriteLine("Document created");
             _writer.AddDocument(document);
         }
         _writer.Commit();
@@ -54,22 +52,14 @@ public class EpisodeSearchEngine
 
     public IEnumerable<Episode> Search(string searchTerm)
     {
-        Console.WriteLine("Searching for: " + searchTerm);
 
         var directoryReader = DirectoryReader.Open(_directory);
-        Console.WriteLine("Directory reader opened");
         var searcher = new IndexSearcher(directoryReader);
-        Console.WriteLine("Index searcher created");
         string[] fields = { "Title", "EpisodeNumber", "Summary", "Link", "Transcript" };
-        Console.WriteLine("Fields created");
         var queryParser = new MultiFieldQueryParser(version, fields, _analyzer);
-        Console.WriteLine("Query parser created");
         var query = queryParser.Parse(searchTerm);
-        Console.WriteLine("Query created");
         var hits = searcher.Search(query, 10).ScoreDocs;
-        Console.WriteLine("Hits found: " + hits.Length);
         var episodes = new List<Episode>();
-        Console.WriteLine("Episodes list created");
         foreach (var hit in hits)
         {
             var foundDoc = searcher.Doc(hit.Doc);
@@ -82,13 +72,8 @@ public class EpisodeSearchEngine
                 Link = foundDoc.Get("Link"),
                 Transcript = foundDoc.Get("Transcript")
             };
-
-            Console.WriteLine("Episode found: \n");
-            Console.WriteLine(episode.Title);
-            Console.WriteLine(episode.Summary);
             episodes.Add(episode);
         }
-        Console.WriteLine("Episodes found: " + episodes.Count);
         return episodes;
     }
 

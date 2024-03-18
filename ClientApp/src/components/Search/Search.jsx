@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Stack } from "@mui/material";
-import { Result } from "./Result.tsx";
+import Result from "./Result.jsx";
 import { Input } from "@mui/material";
 import { Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
