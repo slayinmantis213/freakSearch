@@ -9,10 +9,10 @@ const NavBar = () => {
         variant="contained"
         aria-label="Navigation buttons"
       >
-        <Button href="/search">Search</Button>
+        <Button href="/search">Episodes</Button>
         <Button href="/hosts">Hosts</Button>
         <Button href="/guests">Guests</Button>
-        <Button href="/topics">Topics</Button>
+        {/* <Button href="/topics">Topics</Button> */}
       </ButtonGroup>
     </>
   );

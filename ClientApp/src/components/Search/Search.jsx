@@ -1,4 +1,8 @@
+//? functional imports
 import React, { useState } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+
+//? UI Imports
 import { Stack } from "@mui/material";
 import Result from "./Result.jsx";
 import { Input } from "@mui/material";
@@ -6,14 +10,31 @@ import { Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 const Search = () => {
+  // const history = useHistory();
+  const location = useLocation();
+  const searchRegion = location.search;
+
+  //* This one seems to actually grab the search term from the URL
+  searchRegion.length > 0 && console.log(location.search);
+
+  //! The following commented out code is not working as expected.
+  //! I thought it would return the search term from the URL, but it doesn't.
+  // const searchParams = new URLSearchParams(location.search);
+  // console.log(searchParams.entries());
+  // const searchTerm = searchParams.get("q");
+  // console.log(`searchTerm: ${searchTerm}`);
   const [hasResult, setHasResult] = useState(false);
   const [result, setResult] = useState([]);
-  const searchButtonClicked = () => {
+  const searchButtonClicked = (e) => {
+    e.preventDefault();
+
     const query = document.getElementById("searchInput").value;
-    fetch(
-      "https://localhost:7099/api/Episode/search?query=" +
-        encodeURIComponent(query)
-    )
+    // history.push(`/search/${encodeURIComponent(query)}`);
+    const url = `https://localhost:7099/api/Episode/search/${encodeURIComponent(
+      query
+    )}`;
+    console.log(url);
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         // returns an array of episode objects with the following properties:
@@ -22,7 +43,6 @@ const Search = () => {
         console.log(data);
       })
       .catch((error) => {
-        // Handle any errors here
         console.error(error);
       });
     setHasResult(true);
@@ -39,6 +59,7 @@ const Search = () => {
           id="searchInput"
           name="searchInput"
         />
+        {/* <Input type="submit" value="Search" /> */}
 
         <Button type="button" onClick={searchButtonClicked}>
           <SearchIcon />

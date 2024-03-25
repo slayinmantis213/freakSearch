@@ -28,21 +28,22 @@ public class EpisodeController : Controller
         var episodes = _context.Episodes.ToList();
         return Ok(episodes);
     }
-
-    [HttpGet("search")]
+    // [HttpGet("search?searchInput={query}")]
+    [HttpGet("search/{query}")]
     public IActionResult SearchEpisodes(string query)
     {
+        Console.WriteLine(query);
         var AllEpisodes = _context.Episodes.ToList();
         var searchEngine = new EpisodeSearchEngine();
         searchEngine.AddEpisodesToIndex(AllEpisodes);
         var episodes = searchEngine.Search(query);
-        // var episodes = _context.Episodes
-        //     .Where(e => e.Title.Contains(query)
-        //                 || e.Summary.Contains(query)
-        //                 || e.Link.Contains(query)
-        //                 || e.Transcript.Contains(query))
-        //     .ToList();
 
         return Ok(episodes);
     }
+
+    // [HttpPost("episodes/search")]
+    // public IActionResult Search(string query)
+    // {
+    //     return RedirectToAction("SearchEpisodes", new { query = query });
+    // }
 }
