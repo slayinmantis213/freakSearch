@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace freakSearch.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20240216164142_UpdatedNumberColumnName")]
-    partial class UpdatedNumberColumnName
+    [Migration("20240325204317_AddHostsAsPresenter")]
+    partial class AddHostsAsPresenter
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,21 @@ namespace freakSearch.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Episodes");
+                });
+
+            modelBuilder.Entity("freakSearch.Models.Presenter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Presenters");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace freakSearch.Models;
 
-[Table("freakonomics_episodes")]
 public class Episode
 {
     [Key]
@@ -15,5 +14,7 @@ public class Episode
     public string Summary { get; set; }
     public string Link { get; set; }
     public string Transcript { get; set; }
+    [NotMapped]
+    public List<Presenter>? Presenters { get; set; }
 
 }

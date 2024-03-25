@@ -16,11 +16,11 @@ namespace freakSearch.Migrations
                 name: "Episodes",
                 columns: table => new
                 {
-                    EpisodeId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    EpisodeNumber = table.Column<string>(type: "longtext", nullable: false)
+                    NUMBER = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Summary = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -31,7 +31,7 @@ namespace freakSearch.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Episodes", x => x.EpisodeId);
+                    table.PrimaryKey("PK_Episodes", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
         }

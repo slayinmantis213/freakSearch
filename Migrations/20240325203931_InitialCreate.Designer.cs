@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace freakSearch.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20240215213312_InitialCreate")]
+    [Migration("20240325203931_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,13 +21,14 @@ namespace freakSearch.Migrations
 
             modelBuilder.Entity("freakSearch.Models.Episode", b =>
                 {
-                    b.Property<int>("EpisodeId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("EpisodeNumber")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext")
+                        .HasColumnName("NUMBER");
 
                     b.Property<string>("Link")
                         .IsRequired()
@@ -45,7 +46,7 @@ namespace freakSearch.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("EpisodeId");
+                    b.HasKey("Id");
 
                     b.ToTable("Episodes");
                 });

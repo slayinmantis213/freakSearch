@@ -7,5 +7,7 @@ public class MyContext : DbContext
 {
     public MyContext(DbContextOptions<MyContext> options) : base(options) { }
     public DbSet<Episode> Episodes { get; set; }
+    public DbSet<Presenter> Presenters { get; set; }
+    public DbSet<PresentedBy> PresentedBys { get; set; }
 
 }
