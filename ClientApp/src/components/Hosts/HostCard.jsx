@@ -1,10 +1,21 @@
 import React from "react";
 import { Card, CardContent, Typography } from "@mui/material";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const HostCard = (props) => {
   return (
-    <Link to={`/${props.name}`} style={{ textDecoration: "none" }}>
+    <Link
+      to={`/hosts/${props.name}`}
+      state={{
+        episodeList: props.episodeList,
+        name: props.name,
+        episodeCount: props.episodeCount,
+        mostRecentEpisode: props.mostRecentEpisode,
+        description: props.description,
+        link: props.link,
+      }}
+      style={{ textDecoration: "none" }}
+    >
       <Card
         className="host-card"
         sx={{

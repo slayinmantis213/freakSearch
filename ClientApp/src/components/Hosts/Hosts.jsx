@@ -9,6 +9,13 @@ const listOfHosts = [
     episodeCount: 20,
     mostRecentEpisode: "How to die in a fire",
     link: "https://www.google.com",
+    episodeList: [
+      "Episode 1",
+      "Episode 2",
+      "Episode 3",
+      "Episode 4",
+      "Episode 5",
+    ],
   },
   {
     name: "Franz Ferdinand",
@@ -16,6 +23,13 @@ const listOfHosts = [
     episodeCount: 10,
     mostRecentEpisode: "Max Payne was pretty weak tbh",
     link: "https://www.google.com",
+    episodeList: [
+      "Episode 1",
+      "Episode 2",
+      "Episode 3",
+      "Episode 4",
+      "Episode 5",
+    ],
   },
   {
     name: "Sarah McLachlan",
@@ -23,13 +37,27 @@ const listOfHosts = [
     episodeCount: 15,
     mostRecentEpisode: " I ate shellfish and I liked it",
     link: "https://www.google.com",
+    episodeList: [
+      "Episode 1",
+      "Episode 2",
+      "Episode 3",
+      "Episode 4",
+      "Episode 5",
+    ],
   },
   {
-    name: "Jesse Pinkman",
+    name: "Jesse_Pinkman",
     description: "Jesse Pinkman description",
     episodeCount: 5,
     mostRecentEpisode: "I am the one who knocks",
     link: "https://www.google.com",
+    episodeList: [
+      "Episode 1",
+      "Episode 2",
+      "Episode 3",
+      "Episode 4",
+      "Episode 5",
+    ],
   },
   {
     name: "Gary Newman",
@@ -37,6 +65,13 @@ const listOfHosts = [
     episodeCount: 10,
     mostRecentEpisode: "The terrible case of the measles",
     link: "https://www.google.com",
+    episodeList: [
+      "Episode 1",
+      "Episode 2",
+      "Episode 3",
+      "Episode 4",
+      "Episode 5",
+    ],
   },
   {
     name: "Walter Chroncite",
@@ -44,6 +79,13 @@ const listOfHosts = [
     episodeCount: 5,
     mostRecentEpisode: "Do you know where your children are?",
     link: "https://www.google.com",
+    episodeList: [
+      "Episode 1",
+      "Episode 2",
+      "Episode 3",
+      "Episode 4",
+      "Episode 5",
+    ],
   },
 ];
 
