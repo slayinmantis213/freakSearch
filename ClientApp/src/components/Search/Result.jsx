@@ -18,7 +18,7 @@ const Result = (props) => {
         Summary: {result.summary}
       </Paper>
       <Paper elevation={3} sx={{ padding: 2 }}>
-        Excerpt: ... lipsum ordem ltin words are fun fun fun. ...
+        Excerpt: {result.highlight}
       </Paper>
     </Paper>
   );

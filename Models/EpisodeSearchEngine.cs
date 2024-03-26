@@ -11,6 +11,9 @@ using LuceneDirectory = Lucene.Net.Store.Directory;
 using OpenMode = Lucene.Net.Index.OpenMode;
 using Document = Lucene.Net.Documents.Document;
 using Lucene.Net.QueryParsers.Classic;
+using Lucene.Net.Analysis.En;
+using Lucene.Net.Search.Spell;
+using Lucene.Net.Search.Highlight;
 
 namespace freakSearch.Models;
 
@@ -27,13 +30,11 @@ public class EpisodeSearchEngine
         // FS Directory path is likely just the path where the index is stored
         _directory = new RAMDirectory();
         var config = new IndexWriterConfig(version, _analyzer);
-        _writer = new IndexWriter(_directory, new IndexWriterConfig(version, _analyzer));
-
+        _writer = new IndexWriter(_directory, config);
     }
 
     public void AddEpisodesToIndex(IEnumerable<Episode> episodes)
     {
-        Console.WriteLine("Adding episodes to index");
         foreach (var episode in episodes)
         {
             var document = new Document
@@ -48,21 +49,51 @@ public class EpisodeSearchEngine
             _writer.AddDocument(document);
         }
         _writer.Commit();
+        _writer.Dispose();
     }
 
     public IEnumerable<Episode> Search(string searchTerm)
     {
-
         var directoryReader = DirectoryReader.Open(_directory);
-        var searcher = new IndexSearcher(directoryReader);
+
+        //spell checking
+        SpellChecker spellChecker = new SpellChecker(_directory);
+        IndexWriterConfig config = new IndexWriterConfig(version, _analyzer);
+        spellChecker.IndexDictionary(new LuceneDictionary(directoryReader, "Transcript"), config, true); // Indexing transcripts for spell checking
+        bool termExists = spellChecker.Exist(searchTerm);
+        Console.WriteLine($"term exists {termExists}");
+        if (!termExists)
+        {
+            string[] suggestedTerms = spellChecker.SuggestSimilar(searchTerm, 2);
+            if (suggestedTerms.Length > 0)
+            {
+                foreach (string suggestion in suggestedTerms)
+                {
+                    Console.WriteLine("Did you mean: " + suggestion);
+                }
+                searchTerm = suggestedTerms[0];
+            }
+        }
+        // back to search
+        IndexSearcher searcher = new(directoryReader);
         string[] fields = { "Title", "EpisodeNumber", "Summary", "Link", "Transcript" };
-        var queryParser = new MultiFieldQueryParser(version, fields, _analyzer);
+        MultiFieldQueryParser queryParser = new(version, fields, _analyzer);
         var query = queryParser.Parse(searchTerm);
+        Console.WriteLine($"searchTerm: {searchTerm}");
+        Console.WriteLine($"query: {query}");
+
         var hits = searcher.Search(query, 10).ScoreDocs;
+
+        //instantiate highlighter stuff
+        SimpleHTMLFormatter htmlFormatter = new SimpleHTMLFormatter();
+        Highlighter highlighter = new(htmlFormatter, new QueryScorer(query));
+
+        //populate episode list
         var episodes = new List<Episode>();
         foreach (var hit in hits)
         {
-            var foundDoc = searcher.Doc(hit.Doc);
+            int id = hit.Doc;
+            var foundDoc = searcher.Doc(id);
             var episode = new Episode
             {
                 Id = int.Parse(foundDoc.Get("Id")),
@@ -72,8 +103,30 @@ public class EpisodeSearchEngine
                 Link = foundDoc.Get("Link"),
                 Transcript = foundDoc.Get("Transcript")
             };
+            if (searchTerm != "replay" && episode.Title.Contains("(Replay)")) continue;
+            //inital obvious negative impact: reduces the number of results by the number of replays in the result, so if you search "replay" you get zero results.  
+            //maybe we could populate more results as a padding for this? idea: increase collected hits to 20-30ish (ln 83) and then have an iterator in the hits loop that counts up when we .Add() to episodes.  When i == 10, break loop and display results
+
+            //populate highlighter fragments for episode
+            TokenStream tokenStream = TokenSources.GetAnyTokenStream(searcher.IndexReader, id, "Transcript", _analyzer);
+            TextFragment[] frag = highlighter.GetBestTextFragments(tokenStream, episode.Transcript, mergeContiguousFragments: false, maxNumFragments: 10);
+            String fragmentString = "";
+            foreach (var f in frag)
+            {
+                if (f != null && f.Score > 0)
+                {
+                    fragmentString += f.ToString();
+                }
+            }
+            Console.WriteLine("frag: " + fragmentString);
+            episode.Highlight = fragmentString;
+
+
+            Console.WriteLine("ep id: " + episode.Id + ", ep title: " + episode.Title + ", ep num: " + episode.EpisodeNumber);
             episodes.Add(episode);
+            Console.WriteLine("added ep");
         }
+        Console.WriteLine("eps for display: " + episodes.Count);
         return episodes;
     }
 
