@@ -10,4 +10,5 @@ public class MyContext : DbContext
     public DbSet<Presenter> Presenters { get; set; }
     public DbSet<PresentedBy> PresentedBys { get; set; }
     public DbSet<Guest> Guests { get; set; }
+    public DbSet<GuestofEpisode> GuestsofEpisodes { get; set; }
 }

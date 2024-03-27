@@ -64,6 +64,27 @@ namespace freakSearch.Migrations
                     b.ToTable("Guests");
                 });
 
+            modelBuilder.Entity("freakSearch.Models.GuestofEpisode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("EpisodeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GuestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EpisodeId");
+
+                    b.HasIndex("GuestId");
+
+                    b.ToTable("GuestsofEpisodes");
+                });
+
             modelBuilder.Entity("freakSearch.Models.PresentedBy", b =>
                 {
                     b.Property<int>("Id")
@@ -98,6 +119,25 @@ namespace freakSearch.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Presenters");
+                });
+
+            modelBuilder.Entity("freakSearch.Models.GuestofEpisode", b =>
+                {
+                    b.HasOne("freakSearch.Models.Episode", "Episode")
+                        .WithMany()
+                        .HasForeignKey("EpisodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("freakSearch.Models.Guest", "Guest")
+                        .WithMany()
+                        .HasForeignKey("GuestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Episode");
+
+                    b.Navigation("Guest");
                 });
 
             modelBuilder.Entity("freakSearch.Models.PresentedBy", b =>
