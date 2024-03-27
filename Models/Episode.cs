@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Lucene.Net.Search.Highlight;
+// using Lucene.Net.Search.Highlight;
 namespace freakSearch.Models;
 
 public class Episode
@@ -15,9 +15,9 @@ public class Episode
     public string Summary { get; set; }
     public string Link { get; set; }
     public string Transcript { get; set; }
+    // [NotMapped]
+    public List<Presenter> Presenters { get; set; } = new();
     [NotMapped]
-    public List<Presenter>? Presenters { get; set; }
-    [NotMapped]
-    public String? Highlight { get; set; }
+    public string Highlight { get; set; }
 
 }

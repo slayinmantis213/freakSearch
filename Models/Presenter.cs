@@ -9,8 +9,6 @@ public class Presenter
     [Key]
     public int Id { get; set; }
     public string Name { get; set; }
-    [NotMapped]
-    public List<Episode>? Episodes { get; set; }
-
+    public List<Episode> Episodes { get; set; } = new();
 
 }

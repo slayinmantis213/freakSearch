@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using freakSearch.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace freakSearch.Controllers;
 
@@ -37,9 +38,11 @@ public class EpisodeController : Controller
         return Ok(episodes);
     }
 
-    // [HttpPost("episodes/search")]
-    // public IActionResult Search(string query)
-    // {
-    //     return RedirectToAction("SearchEpisodes", new { query = query });
-    // }
+    [HttpGet("hosts")]
+    public IActionResult GetAllPresenters()
+    {
+        Console.WriteLine("WE MADE IT TO THE CONTROLLER");
+        var hosts = _context.Presenters.ToList();
+        return Ok(hosts);
+    }
 }

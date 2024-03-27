@@ -110,7 +110,7 @@ public class EpisodeSearchEngine
             //populate highlighter fragments for episode
             TokenStream tokenStream = TokenSources.GetAnyTokenStream(searcher.IndexReader, id, "Transcript", _analyzer);
             TextFragment[] frag = highlighter.GetBestTextFragments(tokenStream, episode.Transcript, mergeContiguousFragments: false, maxNumFragments: 10);
-            String fragmentString = "";
+            string fragmentString = "";
             foreach (var f in frag)
             {
                 if (f != null && f.Score > 0)
