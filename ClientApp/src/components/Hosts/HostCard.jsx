@@ -10,11 +10,11 @@ const HostCard = (props) => {
         episodeList: props.episodeList,
         name: props.name,
         episodeCount: props.episodeCount,
-        mostRecentEpisode: props.mostRecentEpisode,
-        description: props.description,
-        link: props.link,
+        // mostRecentEpisode: props.mostRecentEpisode,
+        // description: props.description,
+        // link: props.link,
       }}
-      style={{ textDecoration: "none" }}
+      style={{ textDecoration: "none", maxWidth: "304.08px" }}
     >
       <Card
         className="host-card"
@@ -25,9 +25,11 @@ const HostCard = (props) => {
           alignItems: "center",
           width: "100%",
           minWidth: "272.09px",
+          maxWidth: "304.08px",
           height: "100%",
           padding: "1rem",
           margin: "1rem",
+          overflow: "hidden",
         }}
       >
         <CardContent>

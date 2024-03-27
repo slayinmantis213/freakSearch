@@ -9,13 +9,14 @@ const HostPage = () => {
   //   ? console.log("location.state:", location.state)
   //   : console.log("NO LOCATION STATE");
 
-  const params = useParams();
+  // const params = useParams();
   const { episodeList, name } = location.state;
+  console.log(episodeList, name);
   return (
     <>
       <div>{name}</div>
-      {episodeList.map((episode, index) => (
-        <div key={index}>{episode}</div>
+      {episodeList.map((episode) => (
+        <div key={episode.id}>{episode.title}</div>
       ))}
     </>
   );

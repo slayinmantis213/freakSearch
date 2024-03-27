@@ -39,10 +39,36 @@ public class EpisodeController : Controller
     }
 
     [HttpGet("hosts")]
-    public IActionResult GetAllPresenters()
+    public async Task<IActionResult> GetAllPresenters()
     {
-        Console.WriteLine("WE MADE IT TO THE CONTROLLER");
-        var hosts = _context.Presenters.ToList();
-        return Ok(hosts);
+        var presentersWithEpisodes = await _context.Presenters
+            .Select(p => new
+            {
+                Presenter = p,
+                Episodes = _context.PresentedBys
+                    .Where(pb => pb.PresenterId == p.Id)
+                    .Select(pb => pb.Episode)
+                    .ToList()
+            })
+            .ToListAsync();
+
+        return Ok(presentersWithEpisodes);
+    }
+
+    [HttpGet("guests")]
+    public async Task<IActionResult> GetAllGuests()
+    {
+        var guestsWithEpisodes = await _context.Guests
+            .Select(g => new
+            {
+                Guest = g,
+                Episodes = _context.GuestsofEpisodes
+                    .Where(pb => pb.GuestId == g.Id)
+                    .Select(pb => pb.Episode)
+                    .ToList()
+            })
+            .ToListAsync();
+
+        return Ok(guestsWithEpisodes);
     }
 }
