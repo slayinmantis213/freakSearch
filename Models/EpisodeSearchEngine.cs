@@ -1,4 +1,4 @@
-using System.Reflection.Metadata;
+// using System.Reflection.Metadata;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
@@ -6,12 +6,12 @@ using Lucene.Net.Util;
 using Lucene.Net.Analysis;
 using Lucene.Net.Documents;
 using Lucene.Net.Search;
-using System.Diagnostics;
-using LuceneDirectory = Lucene.Net.Store.Directory;
-using OpenMode = Lucene.Net.Index.OpenMode;
+// using System.Diagnostics;
+// using LuceneDirectory = Lucene.Net.Store.Directory;
+// using OpenMode = Lucene.Net.Index.OpenMode;
 using Document = Lucene.Net.Documents.Document;
 using Lucene.Net.QueryParsers.Classic;
-using Lucene.Net.Analysis.En;
+// using Lucene.Net.Analysis.En;
 using Lucene.Net.Search.Spell;
 using Lucene.Net.Search.Highlight;
 
@@ -54,16 +54,23 @@ public class EpisodeSearchEngine
 
     public IEnumerable<Episode> Search(string searchTerm)
     {
+        // use initial user search term to populate hits
         var directoryReader = DirectoryReader.Open(_directory);
+        IndexSearcher searcher = new(directoryReader);
+        string[] fields = { "Title", "EpisodeNumber", "Summary", "Link", "Transcript" };
+        MultiFieldQueryParser queryParser = new(version, fields, _analyzer);
+        var query = queryParser.Parse(searchTerm);
+        Console.WriteLine($"searchTerm: {searchTerm}");
+        // Console.WriteLine($"query: {query}");
+        var hits = searcher.Search(query, 10).ScoreDocs;
 
-        //spell checking
-        SpellChecker spellChecker = new SpellChecker(_directory);
-        IndexWriterConfig config = new IndexWriterConfig(version, _analyzer);
-        spellChecker.IndexDictionary(new LuceneDictionary(directoryReader, "Transcript"), config, true); // Indexing transcripts for spell checking
-        bool termExists = spellChecker.Exist(searchTerm);
-        Console.WriteLine($"term exists {termExists}");
-        if (!termExists)
+        // spell check if no hits
+        if(hits.Length < 1)
         {
+            SpellChecker spellChecker = new(_directory);
+            IndexWriterConfig config = new(version, _analyzer);
+            spellChecker.IndexDictionary(new LuceneDictionary(directoryReader, "Transcript"), config, true); // Indexing transcripts for spell checking
+            // bool termExists = spellChecker.Exist(searchTerm);
             string[] suggestedTerms = spellChecker.SuggestSimilar(searchTerm, 2);
             if (suggestedTerms.Length > 0)
             {
@@ -72,20 +79,13 @@ public class EpisodeSearchEngine
                     Console.WriteLine("Did you mean: " + suggestion);
                 }
                 searchTerm = suggestedTerms[0];
+                Console.WriteLine("SEARCH TERM 'CORRECTED'");
             }
         }
-        // back to search
-        IndexSearcher searcher = new(directoryReader);
-        string[] fields = { "Title", "EpisodeNumber", "Summary", "Link", "Transcript" };
-        MultiFieldQueryParser queryParser = new(version, fields, _analyzer);
-        var query = queryParser.Parse(searchTerm);
-        Console.WriteLine($"searchTerm: {searchTerm}");
-        Console.WriteLine($"query: {query}");
-
-        var hits = searcher.Search(query, 10).ScoreDocs;
-
+        query = queryParser.Parse(searchTerm);
+        hits = searcher.Search(query, 10).ScoreDocs;
         //instantiate highlighter stuff
-        SimpleHTMLFormatter htmlFormatter = new SimpleHTMLFormatter();
+        SimpleHTMLFormatter htmlFormatter = new();
         Highlighter highlighter = new(htmlFormatter, new QueryScorer(query));
 
         //populate episode list
@@ -116,6 +116,7 @@ public class EpisodeSearchEngine
                 if (f != null && f.Score > 0)
                 {
                     fragmentString += f.ToString();
+                    break;
                 }
             }
             Console.WriteLine("frag: " + fragmentString);

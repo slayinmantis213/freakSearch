@@ -1,5 +1,5 @@
 //? functional imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 
 //? UI Imports
@@ -9,20 +9,38 @@ import { Input } from "@mui/material";
 import { Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
+//* This one seems to actually grab the search term from the URL
+
+//! The following commented out code is not working as expected.
+//! I thought it would return the search term from the URL, but it doesn't.
+// const searchParams = new URLSearchParams(location.search);
+// console.log(searchParams.entries());
+// const searchTerm = searchParams.get("q");
+// console.log(`searchTerm: ${searchTerm}`);
+// const history = useHistory();
 const Search = () => {
-  // const history = useHistory();
   const location = useLocation();
   const searchRegion = location.search;
-
-  //* This one seems to actually grab the search term from the URL
   searchRegion.length > 0 && console.log(location.search);
 
-  //! The following commented out code is not working as expected.
-  //! I thought it would return the search term from the URL, but it doesn't.
-  // const searchParams = new URLSearchParams(location.search);
-  // console.log(searchParams.entries());
-  // const searchTerm = searchParams.get("q");
-  // console.log(`searchTerm: ${searchTerm}`);
+  // grabbing all episodes when page loads.
+  // maybe not the best way to do this.
+
+  // const [loaded, setLoaded] = useState(false);
+  // const [allEpisodes, setAllEpisodes] = useState([]);
+  // useEffect(() => {
+  //   const url = "https://localhost:7099/api/Episode/All";
+  //   console.log(`gonna fetch ${url}`);
+  //   fetch(url)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setAllEpisodes(data);
+  //       // console.log(data);
+  //     })
+  //     .catch((err) => console.error(err));
+  //   setLoaded(true);
+  // }, []);
+
   const [hasResult, setHasResult] = useState(false);
   const [result, setResult] = useState([]);
   const searchButtonClicked = (e) => {
